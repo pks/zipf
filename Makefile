@@ -10,3 +10,6 @@ install:
 clean:
 	gem uninstall nlp_ruby -v $(version)
 
+rake_test:
+	rake test
+
