@@ -1,14 +1,14 @@
 #!/usr/bin/env ruby
 
-require 'rubynlp/stringutil'
-require 'rubynlp/fileutil'
-require 'rubynlp/Vector'
-require 'rubynlp/SparseVector'
-require 'rubynlp/PriorityQueue'
-require 'rubynlp/tfidf'
-require 'rubynlp/ttable'
-require 'rubynlp/dags'
-require 'rubynlp/semirings'
+require 'nlp_ruby/stringutil'
+require 'nlp_ruby/fileutil'
+require 'nlp_ruby/Vector'
+require 'nlp_ruby/SparseVector'
+require 'nlp_ruby/PriorityQueue'
+require 'nlp_ruby/tfidf'
+require 'nlp_ruby/ttable'
+require 'nlp_ruby/dags'
+require 'nlp_ruby/semirings'
 
 STDIN.set_encoding 'utf-8'
 STDOUT.set_encoding 'utf-8'
