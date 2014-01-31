@@ -2,6 +2,7 @@ nlp_ruby
 ========
 
 My little NLP library, supposed to make _my_ work a little easier and less redundant.
+The .gem can be found here: https://rubygems.org/gems/nlp_ruby
 
 * dags.rb : implementation of a directed acyclic graph and various algorithms
 * fileutil.rb : file utilities
