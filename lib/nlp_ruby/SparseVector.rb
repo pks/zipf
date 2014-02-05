@@ -5,8 +5,12 @@ class SparseVector < Hash
     self.default = 0
   end
 
-  def from_hash h
+  def from_h h
     h.each_pair { |k,v| self[k] = v }
+  end
+
+  def from_s s
+    from_h eval(s)
   end
 
   def sum
@@ -47,6 +51,43 @@ class SparseVector < Hash
     sum = 0.0
     dims.each { |d| sum += (self[d] - other[d])**2 }
     return Math.sqrt(sum)
+  end
+
+  def to_kv
+    a = []
+    self.each_pair { |k,v|
+      a << "#{k}=#{v}"
+    }
+    return a.join ' '
+  end
+
+  def join_keys other
+    self.keys + other.keys
+  end
+
+  def + other
+    new = SparseVector.new
+    join_keys(other).each { |k|
+      new[k] = self[k]+other[k]
+    }
+    return new
+  end
+
+  def - other
+    new = SparseVector.new
+    join_keys(other).each { |k|
+      new[k] = self[k]-other[k]
+    }
+    return new
+  end
+
+  def * scalar
+    raise ArgumentError, "Arg is not numeric #{scalar}" unless scalar.is_a? Numeric
+    new = SparseVector.new
+    self.keys.each { |k|
+      new[k] = self[k] * scalar
+    }
+    return new
   end
 end
 

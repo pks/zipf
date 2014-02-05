@@ -3,8 +3,8 @@ def tokenize s
   s.strip.split
 end
 
-def splitpipe s
-  s.strip.split(/\s*\|\|\|\s*/)
+def splitpipe s, n=3
+  s.strip.split("|"*n)
 end
 
 def downcase? s
@@ -30,5 +30,21 @@ def read_feature_string s
     map[key] = value.to_f
   }
   return map
+end
+
+
+def read_cfg fn
+  f = ReadFile.new fn
+  cfg = {}
+  while line = f.gets
+    line.strip!
+    next if /^\s*$/.match line
+    next if line[0]=='#'
+    content = line.split('#', 2).first
+    k, v = content.split(/\s*=\s*/, 2)
+    k.strip!; v.strip!
+    cfg[k] = v
+  end
+  return cfg
 end
 

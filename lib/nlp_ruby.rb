@@ -9,6 +9,8 @@ require 'nlp_ruby/tfidf'
 require 'nlp_ruby/ttable'
 require 'nlp_ruby/dags'
 require 'nlp_ruby/semirings'
+require 'nlp_ruby/bleu'
+require 'nlp_ruby/misc'
 
 STDIN.set_encoding 'utf-8'
 STDOUT.set_encoding 'utf-8'

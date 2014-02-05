@@ -40,7 +40,7 @@ class WriteFile
 
   def initialize fn, encoding='utf-8'
     if fn.split('.').last == 'gz'
-      @f = Zlib::GzipWrite.new(File.new(fn, 'wb+'), :external_encoding=>encoding)
+      @f = Zlib::GzipWriter.new(File.new(fn, 'wb+'), :external_encoding=>encoding)
     elsif fn == '-'
       @f = STDOUT
       STDOUT.set_encoding encoding
