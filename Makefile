@@ -13,3 +13,6 @@ clean:
 rake_test:
 	rake test
 
+publish:
+	gem push nlp_ruby-$(version).gem
+
