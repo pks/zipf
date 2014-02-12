@@ -48,3 +48,8 @@ def read_cfg fn
   return cfg
 end
 
+def bag_of_words s, stopwords=[]
+  s.strip.split.uniq.sort.reject{ |w| stopwords.include? w }
+end 
+
+

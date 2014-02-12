@@ -79,12 +79,12 @@ def BLEU::get_counts hypothesis, reference, n, times=1
   return p
 end
 
-def BLEU::brevity_penalty(c, r)
-  if c > r then return 1.0 end
+def BLEU::brevity_penalty c, r
+  return 1.0 if c>r
   return Math.exp(1-r/c)
 end
 
-def BLEU::bleu(counts, n, debug=false)
+def BLEU::bleu counts, n, debug=false
   corpus_stats = NgramCounts.new n
   counts.each { |i| corpus_stats.plus_eq i }
   sum = 0.0
@@ -103,6 +103,25 @@ end
 
 def BLEU::hbleu counts, n, debug=false
   (100*bleu(counts, n, debug)).round(3)
+end
+
+def BLEU::per_sentence_bleu hypothesis, reference, n=4
+  h_ng = {}; r_ng = {}
+  (1).upto(n) {|i| h_ng[i] = []; r_ng[i] = []}
+  ngrams(hypothesis, n) {|i| h_ng[i.size] << i}
+  ngrams(reference, n) {|i| r_ng[i.size] << i}
+  m = [n, reference.split.size].min
+  weight = 1.0/m
+  add = 0.0
+  sum = 0
+  (1).upto(m) { |i|
+    counts_clipped = 0
+    counts_sum = h_ng[i].size
+    h_ng[i].uniq.each {|j| counts_clipped += r_ng[i].count(j)}
+    add = 1.0 if i >= 2
+    sum += weight * Math.log((counts_clipped + add)/(counts_sum + add));
+  } 
+  return brevity_penalty(hypothesis.strip.split.size, reference.strip.split.size) * Math.exp(sum)
 end
 
 

@@ -15,18 +15,21 @@ def read_phrase_table fn
   return table
 end
 
+# FIXME
 class Translation
-  attr_accessor :id, :s, :raw, :f, :score
+  attr_accessor :id, :s, :raw, :f, :score, :rank, :other_score
 
-  def initialize id=nil, raw=nil, s=nil, f=nil, score=nil
+  def initialize id=nil, raw=nil, s=nil, f=nil, score=nil, rank=nil, other_score=nil
     @id = id
     @raw = raw
     @s = s
     @f = f
     @score = score
+    @rank = rank
+    @other_score = other_score
   end
 
-  def from_s t, strip_alignment=true
+  def from_s t, strip_alignment=true, rank=nil
     id, raw, features, score = splitpipe(t, 3)
     raw.strip!
     @raw = raw
@@ -39,10 +42,16 @@ class Translation
     @id = id.to_i
     @f = read_feature_string features
     @score = score.to_f
+    @rank = rank
+    @other_score = nil
   end
 
   def to_s
-    [id, s, f.to_kv, score].join ' ||| '
+    [@id, @s, @f.to_kv, @score].join ' ||| '
+  end
+
+  def to_s2
+    [@rank, @s, @f.to_kv, @score, @other_score].join ' ||| '
   end
 end
 

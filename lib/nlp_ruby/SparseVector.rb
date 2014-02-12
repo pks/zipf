@@ -53,10 +53,21 @@ class SparseVector < Hash
     return Math.sqrt(sum)
   end
 
-  def to_kv
+  # FIXME
+  def from_kv_file fn, sep=' '
+    f = ReadFile.new(fn)
+    while line = f.gets
+      key, value = line.strip.split sep
+      value = value.to_f
+      self[key] = value
+    end
+  end
+  
+  # FIXME
+  def to_kv sep='='
     a = []
     self.each_pair { |k,v|
-      a << "#{k}=#{v}"
+      a << "#{k}#{sep}#{v}"
     }
     return a.join ' '
   end

@@ -11,6 +11,7 @@ require 'nlp_ruby/dags'
 require 'nlp_ruby/semirings'
 require 'nlp_ruby/bleu'
 require 'nlp_ruby/misc'
+require 'nlp_ruby/cdec'
 
 STDIN.set_encoding 'utf-8'
 STDOUT.set_encoding 'utf-8'
