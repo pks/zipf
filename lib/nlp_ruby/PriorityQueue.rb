@@ -5,6 +5,7 @@ class PriorityQueue
 
   def initialize a=Array.new
     @queue = Array.new a
+    sort!
   end
 
   def sort!
@@ -12,12 +13,12 @@ class PriorityQueue
   end
 
   def pop
-    sort!
     @queue.pop
   end
 
   def push i
     @queue << i
+    sort!
   end
 
   def empty?
