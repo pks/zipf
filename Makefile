@@ -2,6 +2,7 @@ version := $$(grep s.version nlp_ruby.gemspec | awk '{print $$3}' | sed "s|'||g"
 
 
 all:
+	rm nlp_ruby-$(version).gem
 	gem build nlp_ruby.gemspec
 
 install:

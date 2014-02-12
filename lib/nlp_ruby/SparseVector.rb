@@ -5,6 +5,10 @@ class SparseVector < Hash
     self.default = 0
   end
 
+  def from_a a
+    a.each_with_index { |i,j| self[j] = i }
+  end
+
   def from_h h
     h.each_pair { |k,v| self[k] = v }
   end
