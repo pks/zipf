@@ -2,7 +2,6 @@
 
 require 'nlp_ruby/stringutil'
 require 'nlp_ruby/fileutil'
-require 'nlp_ruby/Vector'
 require 'nlp_ruby/SparseVector'
 require 'nlp_ruby/PriorityQueue'
 require 'nlp_ruby/tfidf'

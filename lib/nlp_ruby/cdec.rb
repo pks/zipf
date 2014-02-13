@@ -8,6 +8,8 @@ CDEC_BINARY = "/toolbox/cdec-dtrain/decoder/cdec"
 
 
 def CDEC::kbest input, ini, weights, k, unique=true
+  puts "asdf #{`cat #{weights}`}"
+  puts "echo \"#{input}\" | #{CDEC_BINARY} -c #{ini} -w #{weights} -k #{k} -r  2>/dev/null"
   o, s = Open3.capture2 "echo \"#{input}\" | #{CDEC_BINARY} -c #{ini} -w #{weights} -k #{k} -r  2>/dev/null"
   j = -1
   ret = []

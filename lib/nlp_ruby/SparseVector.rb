@@ -42,6 +42,10 @@ class SparseVector < Hash
     return sum
   end
 
+  def zeros n
+    (0).upto(n-1) { |i| self[i] = 0.0 }
+  end
+
   def magnitude
     Math.sqrt self.values.inject { |sum,i| sum+i**2 }
   end
