@@ -11,6 +11,14 @@ class Array
     }
     return true
   end
+
+  def sum
+    self.inject(:+)
+  end
+
+  def mean
+    self.sum.to_f/self.size
+  end
 end
 
 def spawn_with_timeout cmd, t=4, debug=false

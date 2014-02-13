@@ -1,8 +1,11 @@
 class SparseVector < Hash
 
-  def initialize
+  def initialize arg=nil
     super
     self.default = 0
+    if arg.is_a? Array
+      from_a arg
+    end
   end
 
   def from_a a
@@ -19,6 +22,16 @@ class SparseVector < Hash
 
   def sum
     self.values.inject(:+)
+  end
+
+  def approx_eql? other, p=10**-10
+    return false if !other
+    return false if other.size!=self.size
+    return false if other.keys.sort!=self.keys.sort
+    self.keys.each { |k|
+      return false if (self[k]-other[k]).abs>p
+    }
+    return true
   end
 
   def average
