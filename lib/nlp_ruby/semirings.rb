@@ -1,4 +1,5 @@
-# semirings for graphs as described in
+# Semirings for directed acyclic graphs (dags) (also directed hypergraphs),
+# as described in:
 # 'Dynamic Programming Algorithms in
 #  Semiring and Hypergraph Frameworks' (Liang Huang)
 class Semiring

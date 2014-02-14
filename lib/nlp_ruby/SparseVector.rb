@@ -20,6 +20,34 @@ class SparseVector < Hash
     from_h eval(s)
   end
 
+  def to_kv sep='=', join=' '
+    a = []
+    self.each_pair { |k,v|
+      a << "#{k}#{sep}#{v}"
+    }
+    return a.join join
+  end
+
+  def from_kv s
+    s.split.each { |i|
+      k,v = i.split('=')
+      self[k] = v.to_f
+    }
+  end
+
+  def from_file fn, sep='='
+    f = ReadFile.new(fn)
+    while line = f.gets
+      key, value = line.strip.split sep
+      value = value.to_f
+      self[key] = value
+    end
+  end
+
+  def join_keys other
+    self.keys + other.keys
+  end
+
   def sum
     self.values.inject(:+)
   end
@@ -74,38 +102,6 @@ class SparseVector < Hash
     return Math.sqrt(sum)
   end
 
-  # FIXME
-  def from_kv_file fn, sep=' '
-    f = ReadFile.new(fn)
-    while line = f.gets
-      key, value = line.strip.split sep
-      value = value.to_f
-      self[key] = value
-    end
-  end
-  
-  # FIXME
-  def to_kv sep='='
-    a = []
-    self.each_pair { |k,v|
-      a << "#{k}#{sep}#{v}"
-    }
-    return a.join ' '
-  end
-
-  # FIXME
-  def to_kv2 sep='='
-    a = []
-    self.each_pair { |k,v|
-      a << "#{k}#{sep}#{v}"
-    }
-    return a.join "\n"
-  end
-
-  def join_keys other
-    self.keys + other.keys
-  end
-
   def + other
     new = SparseVector.new
     join_keys(other).each { |k|
@@ -132,9 +128,13 @@ class SparseVector < Hash
   end
 end
 
-def mean_sparse_vector array_of_vectors
+
+module SparseVector
+
+
+def SparseVector::mean a
   mean = SparseVector.new
-  array_of_vectors.each { |i|
+  a.each { |i|
     i.each_pair { |k,v|
       mean[k] += v
     }
@@ -142,5 +142,8 @@ def mean_sparse_vector array_of_vectors
   n = array_of_vectors.size.to_f
   mean.each_pair { |k,v| mean[k] = v/n }
   return mean
+end
+
+
 end
 

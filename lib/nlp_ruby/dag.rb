@@ -1,19 +1,6 @@
-###########################
-# TODO
-# output paths
-# visualization?
-# algorithms:
-#  beam search
-#  best-first
-#  kbest
-#  kruskal (MST)?
-#  transitive closure?
-###########################
+module DAG
 
 require 'json'
-
-
-module DAG
 
 
 class DAG::Node

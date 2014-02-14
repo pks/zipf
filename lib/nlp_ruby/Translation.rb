@@ -1,32 +1,13 @@
-# table['some French string'] = [Array of English strings]
-def read_phrase_table fn
-  table = {}
-  f = ReadFile.new fn
-  while raw_rule = f.gets
-    french, english, features = splitpipe(raw_rule)
-    feature_map = read_feature_string(features)
-    if table.has_key? french
-      table[french] << [english, feature_map ]
-    else
-      table[french] = [[english, feature_map]]
-    end
-  end
-  f.close
-  return table
-end
-
-# FIXME
 class Translation
   attr_accessor :id, :s, :raw, :f, :score, :rank, :other_score
 
-  def initialize id=nil, raw=nil, s=nil, f=nil, score=nil, rank=nil, other_score=nil
+  def initialize id=nil, raw=nil, s=nil, f=nil, scores={}, rank=nil
     @id = id
     @raw = raw
     @s = s
     @f = f
-    @score = score
+    @scores = scores
     @rank = rank
-    @other_score = other_score
   end
 
   def from_s t, strip_alignment=true, rank=nil
@@ -41,17 +22,17 @@ class Translation
     end
     @id = id.to_i
     @f = read_feature_string features
-    @score = score.to_f
+    @scores['decoder'] = score.to_f
     @rank = rank
-    @other_score = nil
   end
 
-  def to_s
-    [@id, @s, @f.to_kv, @score].join ' ||| '
+  def to_s include_features=true
+    [@id, @s, @f.to_kv('=', ' '), @scores['decoder']].join(' ||| ') if include_features
+    [@id, @s, @scores['decoder']].join(' ||| ') if !include_features
   end
 
   def to_s2
-    [@rank, @s, @score, @other_score].join ' ||| '
+    [@rank, @s, @score, @scores.to_s].join ' ||| '
   end
 end
 
