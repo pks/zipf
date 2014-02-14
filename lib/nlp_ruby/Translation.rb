@@ -1,5 +1,5 @@
 class Translation
-  attr_accessor :id, :s, :raw, :f, :score, :rank, :other_score
+  attr_accessor :id, :s, :raw, :f, :scores, :rank
 
   def initialize id=nil, raw=nil, s=nil, f=nil, scores={}, rank=nil
     @id = id
@@ -21,9 +21,15 @@ class Translation
       @s = raw
     end
     @id = id.to_i
-    @f = read_feature_string features
+    @f = SparseVector.from_kv features
     @scores['decoder'] = score.to_f
     @rank = rank
+  end
+
+  def self.from_s s
+    t = self.new
+    t.from_s s
+    return t
   end
 
   def to_s include_features=true

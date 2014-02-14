@@ -4,27 +4,27 @@ require 'json'
 
 
 class DAG::Node
-  attr_accessor :label, :edges, :incoming, :score, :mark
+  attr_accessor :label, :outgoing, :incoming, :score, :mark
 
-  def initialize label=nil, edges=[], incoming=[], score=nil
+  def initialize label=nil, outgoing=[], incoming=[], score=nil
     @label    = label
-    @edges    = edges # outgoing
+    @outgoing = outgoing
     @incoming = incoming
     @score    = nil
   end
 
   def add_edge head, weight=0
     exit if self==head # no self-cycles!
-    @edges << DAG::Edge.new(self, head, weight)
-    return @edges.last
+    @outgoing << DAG::Edge.new(self, head, weight)
+    return @outgoing.last
   end
 
   def to_s
-    "DAG::Node<label:#{label}, edges:#{edges.size}, incoming:#{incoming.size}>"
+    "DAG::Node<label:#{label}, outgoing:#{outgoing.size}, incoming:#{incoming.size}>"
   end
 
   def repr
-    "#{to_s} #{@score} out:#{@edges} in:[#{@incoming.map{|e| e.to_s}.join ', '}]"
+    "#{to_s} #{@score} out:#{@outgoing} in:[#{@incoming.map{|e| e.to_s}.join ', '}]"
   end
 end
 
@@ -50,7 +50,7 @@ end
 #  w/o markings as we do not have cycles
 def DAG::dfs n, target_label
   return n if n.label==target_label # assumes uniq labels!
-  stack = n.edges.map { |i| i.head }
+  stack = n.outgoing.map { |i| i.head }
   while !stack.empty?
     m = stack.pop
     return DAG::dfs m, target_label
@@ -65,7 +65,7 @@ def DAG::bfs n, target_label
   while !queue.empty?
     m = queue.shift
     return m if m.label==target_label
-    m.edges.each { |e| queue << e.head }
+    m.outgoing.each { |e| queue << e.head }
   end
   return nil
 end
@@ -76,7 +76,7 @@ def DAG::topological_sort graph
   s = graph.reject { |n| !n.incoming.empty? }
   while !s.empty?
     sorted << s.shift
-    sorted.last.edges.each { |e|
+    sorted.last.outgoing.each { |e|
       e.mark = true
       s << e.head if e.head.incoming.reject{|f| f.mark}.empty?
     }
@@ -110,7 +110,7 @@ def DAG::viterbi_forward graph, semiring=ViterbiSemiring, source_node
   toposorted = DAG::topological_sort(graph)
   DAG::init(graph, semiring, source_node)
   toposorted.each { |n|
-    n.edges.each { |e|
+    n.outgoing.each { |e|
       e.head.score = \
         semiring.add.call(e.head.score, \
                           semiring.multiply.call(n.score, e.weight)
@@ -127,7 +127,7 @@ def DAG::dijkstra graph, semiring=RealSemiring.new, source_node
   q = PriorityQueue.new graph
   while !q.empty?
     n = q.pop
-    n.edges.each { |e|
+    n.outgoing.each { |e|
       e.head.score = \
         semiring.add.call(e.head.score, \
                           semiring.multiply.call(n.score, e.weight))

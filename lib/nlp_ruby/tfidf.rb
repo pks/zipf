@@ -1,6 +1,9 @@
+module TFIDF
+
+
 # returns key='raw frequency' for an
 # array-like object
-def tf array, stopwords=[]
+def TFIDF::tf array, stopwords=[]
   v = {}; v.default = 0
   array.uniq.each { |i|
    next if stopwords.include? i
@@ -11,7 +14,7 @@ end
 
 # smoothes raw frequencies of tf() in-place
 # a is a smoothing term
-def ntf hash, a=0.4
+def TFIDF::ntf hash, a=0.4
   max = hash.values.max.to_f
   hash.each_pair { |k,v|
     hash[k] = a + (1-a)*(v/max)
@@ -19,7 +22,7 @@ def ntf hash, a=0.4
 end
 
 # returns idf value for each word in a vocabulary
-def idf list_of_hashes
+def TFIDF::idf list_of_hashes
   vocab = list_of_hashes.values.flatten.uniq
   n = list_of_hashes.size.to_f
   idf = {}
@@ -29,4 +32,7 @@ def idf list_of_hashes
   }
   return idf
 end
+
+
+end #module
 

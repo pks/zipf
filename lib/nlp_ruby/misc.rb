@@ -1,3 +1,6 @@
+require 'timeout'
+
+
 class Array
   def max_index
     self.index(self.max)
@@ -23,8 +26,8 @@ end
 
 class String
 
-  def downcase? s
-    s[/[[:lower:]]/]
+  def downcase?
+    self[/[[:lower:]]/]
   end
 end
 
@@ -56,16 +59,13 @@ class PriorityQueue
 end
 
 def spawn_with_timeout cmd, t=4, debug=false
-  require 'timeout'
   STDERR.write cmd+"\n" if debug
   pipe_in, pipe_out = IO.pipe
   pid = Process.spawn(cmd, :out => pipe_out)
   begin
     Timeout.timeout(t) { Process.wait pid }
   rescue Timeout::Error
-    return ""
-    # accept the zombies
-    #Process.kill('TERM', pid)
+    Process.kill('TERM', pid)
   end
   pipe_out.close
   return pipe_in.read
@@ -76,7 +76,7 @@ def read_phrase_table fn
   f = ReadFile.new fn
   while raw_rule = f.gets
     french, english, features = splitpipe(raw_rule)
-    feature_map = read_feature_string(features)
+    feature_map = SparseVector.from_kv  features
     if table.has_key? french
       table[french] << [english, feature_map ]
     else

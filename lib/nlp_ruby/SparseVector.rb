@@ -12,12 +12,30 @@ class SparseVector < Hash
     a.each_with_index { |i,j| self[j] = i }
   end
 
+  def self.from_a a
+    v = SparseVector.new
+    v.from_a a
+    return v
+  end
+
   def from_h h
     h.each_pair { |k,v| self[k] = v }
   end
 
+  def self.from_h h
+    v = SparseVector.new
+    v.from_h h
+    return v
+  end
+
   def from_s s
     from_h eval(s)
+  end
+
+  def self.from_s s
+    v = SparseVector.new
+    v.from_s s
+    return v
   end
 
   def to_kv sep='=', join=' '
@@ -35,6 +53,12 @@ class SparseVector < Hash
     }
   end
 
+  def self.from_kv s
+    v = SparseVector.new
+    v.from_kv s
+    return v
+  end
+
   def from_file fn, sep='='
     f = ReadFile.new(fn)
     while line = f.gets
@@ -42,6 +66,12 @@ class SparseVector < Hash
       value = value.to_f
       self[key] = value
     end
+  end
+
+  def self.from_file fn, sep='='
+    v = SparseVector.new
+    v.from_file fn, sep
+    return v
   end
 
   def join_keys other
@@ -126,24 +156,17 @@ class SparseVector < Hash
     }
     return new
   end
-end
 
-
-module SparseVector
-
-
-def SparseVector::mean a
-  mean = SparseVector.new
-  a.each { |i|
-    i.each_pair { |k,v|
-      mean[k] += v
+  def self.mean a
+    mean = SparseVector.new
+    a.each { |i|
+      i.each_pair { |k,v|
+        mean[k] += v
+      }
     }
-  }
-  n = array_of_vectors.size.to_f
-  mean.each_pair { |k,v| mean[k] = v/n }
-  return mean
-end
-
-
+    n = a.size.to_f
+    mean.each_pair { |k,v| mean[k] = v/n }
+    return mean
+  end
 end
 
