@@ -51,7 +51,7 @@ class Translation
   end
 
   def to_s2
-    [@rank, @s, @f.to_kv, @score, @other_score].join ' ||| '
+    [@rank, @s, @score, @other_score].join ' ||| '
   end
 end
 

@@ -80,6 +80,15 @@ class SparseVector < Hash
     return a.join ' '
   end
 
+  # FIXME
+  def to_kv2 sep='='
+    a = []
+    self.each_pair { |k,v|
+      a << "#{k}#{sep}#{v}"
+    }
+    return a.join "\n"
+  end
+
   def join_keys other
     self.keys + other.keys
   end
