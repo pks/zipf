@@ -34,7 +34,7 @@ class Translation
 
   def to_s include_features=true
     [@id, @s, @f.to_kv('=', ' '), @scores['decoder']].join(' ||| ') if include_features
-    [@id, @s, @scores['decoder']].join(' ||| ') if !include_features
+    [@id, @s, @scores[:decoder]].join(' ||| ') if !include_features
   end
 
   def to_s2
