@@ -22,7 +22,7 @@ class Translation
     end
     @id = id.to_i
     @f = SparseVector.from_kv features
-    @scores['decoder'] = score.to_f
+    @scores[:decoder] = score.to_f
     @rank = rank
   end
 
@@ -33,7 +33,7 @@ class Translation
   end
 
   def to_s include_features=true
-    [@id, @s, @f.to_kv('=', ' '), @scores['decoder']].join(' ||| ') if include_features
+    [@id, @s, @f.to_kv('=', ' '), @scores[:decoder]].join(' ||| ') if include_features
     [@id, @s, @scores[:decoder]].join(' ||| ') if !include_features
   end
 
