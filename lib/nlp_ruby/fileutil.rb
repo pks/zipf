@@ -23,12 +23,33 @@ class ReadFile
     @f.readlines
   end
 
+  def self.readlines fn, encoding='utf-8'
+    f = ReadFile.new fn, encoding
+    r = f.readlines
+    f.close
+    return r
+  end
+
   def readlines_strip
     self.readlines.map{ |i| i.strip }
   end
 
+  def self.readlines_strip fn, encoding='utf-8'
+    f = ReadFile.new fn, encoding
+    r = f.readlines_strip
+    f.close
+    return r
+  end
+
   def read
     @f.read
+  end
+
+  def self.read fn, encoding='utf-8'
+    f = ReadFile.new fn, encoding
+    r = f.read
+    f.close
+    return r
   end
 
   def close
@@ -52,6 +73,12 @@ class WriteFile
 
   def write s
     @f.write s
+  end
+
+  def self.write s, fn, encoding='utf-8'
+    f = WriteFile.new fn, encoding
+    f.write s
+    f.close
   end
 
   def close
