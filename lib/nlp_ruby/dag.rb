@@ -140,7 +140,7 @@ end
 def DAG::bellman_ford(graph, semiring=RealSemiring.new, source_node)
   DAG::init(graph, semiring, source_node)
   edges = []
-  graph.each { |n| edges |= n.edges }
+  graph.each { |n| edges |= n.outgoing }
   # relax edges
   (graph.size-1).times{ |i|
     edges.each { |e|
@@ -164,7 +164,7 @@ def DAG::floyd(graph, semiring=nil)
     }
   }
   edges = []
-  graph.each { |n| edges |= n.edges }
+  graph.each { |n| edges |= n.outgoing }
   edges.each { |e|
     dist_matrix[graph.index(e.tail)][graph.index(e.head)] = e.weight
   }
