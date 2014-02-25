@@ -9,6 +9,7 @@ require 'nlp_ruby/dag'
 require 'nlp_ruby/semirings'
 require 'nlp_ruby/bleu'
 require 'nlp_ruby/misc'
+require 'nlp_ruby/hg'
 
 STDIN.set_encoding 'utf-8'
 STDOUT.set_encoding 'utf-8'

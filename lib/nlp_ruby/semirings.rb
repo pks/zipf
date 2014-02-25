@@ -26,6 +26,16 @@ class ViterbiSemiring < Semiring
   end
 end
 
+class ViterbiLogSemiring < Semiring
+  def initialize
+    @add = Proc.new { |a,b| [a,b].max }
+    @multiply =  Proc.new { |a,b| a+b }
+    @one = 0.0
+    @null = -1.0/0.0
+    @convert = Proc.new { |v| v }
+  end
+end
+
 class InsideSemiring < Semiring
   def initialize
     @add = Proc.new { |a,b| a+b }

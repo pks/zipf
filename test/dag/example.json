@@ -1,0 +1,45 @@
+{
+
+"nodes":
+[
+ {"label":"0"},
+ {"label":"7"},
+ {"label":"5"},
+ {"label":"3"},
+ {"label":"11"},
+ {"label":"8"},
+ {"label":"2"},
+ {"label":"9"},
+ {"label":"10"},
+ {"label":"100"}
+],
+
+"edges":
+[
+ { "tail":"0", "head":"7", "weight":"0.1" },
+ { "tail":"0", "head":"5", "weight":"0.1" },
+ { "tail":"0", "head":"3", "weight":"0.3" },
+
+ { "tail":"7", "head":"11", "weight":"0.5" },
+ { "tail":"7", "head":"8",  "weight":"0.3" },
+
+ { "tail":"5", "head":"11", "weight":"0.5" },
+
+ { "tail":"3", "head":"8",  "weight":"0.1" },
+ { "tail":"3", "head":"10", "weight":"0.1" },
+
+ { "tail":"11", "head":"2",  "weight":"0.2" },
+ { "tail":"11", "head":"9",  "weight":"0.2" },
+ { "tail":"11", "head":"10", "weight":"0.3" },
+
+ { "tail":"8", "head":"9", "weight":"0.3" },
+
+ { "tail":"2", "head":"100", "weight":"0.1" },
+
+ { "tail":"9", "head":"100", "weight":"0.1" },
+
+ { "tail":"10", "head":"100", "weight":"0.1" }
+]
+
+}
+
