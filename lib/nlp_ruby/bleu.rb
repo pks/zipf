@@ -79,49 +79,50 @@ def BLEU::get_counts hypothesis, reference, n, times=1
   return p
 end
 
-def BLEU::brevity_penalty c, r, hack=0.0
-  return 1.0 if c>r
-  return Math.exp 1.0-((r+hack)/c)
+def BLEU::brevity_penalty c, r, smooth=0.0
+  return [0.0, 1.0-((r+smooth)/c)].min
 end
 
 def BLEU::bleu counts, n, debug=false
   corpus_stats = NgramCounts.new n
   counts.each { |i| corpus_stats.plus_eq i }
-  sum = 0.0
-  w = 1.0/n
+  logbleu = 0.0
   0.upto(n-1) { |m|
     STDERR.write "#{m+1} #{corpus_stats.clipped[m]} / #{corpus_stats.sum[m]}\n" if debug
     return 0.0 if corpus_stats.clipped[m] == 0 or corpus_stats.sum == 0
-    sum += w * Math.log(corpus_stats.clipped[m] / corpus_stats.sum[m])
+    logbleu += Math.log(corpus_stats.clipped[m]) - Math.log(corpus_stats.sum[m])
   }
+  logbleu /= n
   if debug
     STDERR.write "BP #{brevity_penalty(corpus_stats.hyp_len, corpus_stats.ref_len)}\n"
     STDERR.write "sum #{Math.exp(sum)}\n"
   end
-  return brevity_penalty(corpus_stats.hyp_len, corpus_stats.ref_len) * Math.exp(sum)
+  logbleu += brevity_penalty corpus_stats.hyp_len, corpus_stats.ref_len
+  return Math.exp logbleu
 end
 
 def BLEU::hbleu counts, n, debug=false
   (100*bleu(counts, n, debug)).round(3)
 end
 
-def BLEU::per_sentence_bleu hypothesis, reference, n=4, hack=0.0
+def BLEU::per_sentence_bleu hypothesis, reference, n=4, smooth=0.0
   h_ng = {}; r_ng = {}
-  (1).upto(n) {|i| h_ng[i] = []; r_ng[i] = []}
-  ngrams(hypothesis, n) {|i| h_ng[i.size] << i}
-  ngrams(reference, n) {|i| r_ng[i.size] << i}
+  (1).upto(n) { |i| h_ng[i] = []; r_ng[i] = [] }
+  ngrams(hypothesis, n) { |i| h_ng[i.size] << i }
+  ngrams(reference, n) { |i| r_ng[i.size] << i }
   m = [n, reference.split.size].min
-  weight = 1.0/m
   add = 0.0
-  sum = 0
+  logbleu = 0.0
   (1).upto(m) { |i|
     counts_clipped = 0
     counts_sum = h_ng[i].size
     h_ng[i].uniq.each { |j| counts_clipped += r_ng[i].count(j) }
     add = 1.0 if i >= 2
-    sum += weight * Math.log((counts_clipped + add)/(counts_sum + add));
+    logbleu += Math.log(counts_clipped+add) - Math.log(counts_sum+add);
   }
-  return brevity_penalty(hypothesis.strip.split.size, reference.strip.split.size) * Math.exp(sum)
+  logbleu /= m
+  logbleu += brevity_penalty hypothesis.strip.split.size, reference.strip.split.size, smooth
+  return Math.exp logbleu
 end
 
 
