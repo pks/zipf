@@ -58,14 +58,14 @@ class PriorityQueue
   end
 end
 
-def spawn_with_timeout cmd, t=4, debug=false
+def spawn_with_timeout cmd, t=4, ignore_fail=false, debug=false
   STDERR.write cmd+"\n" if debug
   pipe_in, pipe_out = IO.pipe
   pid = Process.spawn(cmd, :out => pipe_out)
   begin
     Timeout.timeout(t) { Process.wait pid }
   rescue Timeout::Error
-    Process.kill('TERM', pid)
+    Process.kill('TERM', pid) if !ignore_fail
   end
   pipe_out.close
   return pipe_in.read
