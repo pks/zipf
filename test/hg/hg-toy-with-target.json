@@ -1,0 +1,31 @@
+{
+"weights":{
+"logp":2.0, "use_house":0.0, "use_shell":1.0
+},
+"nodes":
+[
+{ "label":"root", "cat":"root" },
+{ "label":"0", "cat":"NP" },
+{ "label":"1", "cat":"V" },
+{ "label":"2", "cat":"JJ" },
+{ "label":"3", "cat":"NN" },
+{ "label":"4", "cat":"NP" },
+{ "label":"5", "cat":"VP" },
+{ "label":"6", "cat":"S" },
+{ "label":"7", "cat":"Goal" }
+],
+"edges":
+[
+{"head":"0", "trule":"[NP] ||| ich ||| i ||| logp=-0.5 use_i=1.0", "left":0, "right":1, "tails":[ "root" ], "f":{"logp":-0.5, "use_i":1.0}, "weight":0.367879441171 },
+{"head":"1", "trule":"[V] ||| sah ||| saw ||| logp=-0.25 use_saw=1.0", "left":1, "right":2, "tails":[ "root" ], "f":{"logp":-0.25, "use_saw":1.0}, "weight":0.606530659713 },
+{"head":"2", "trule":"[JJ] ||| kleines ||| small ||| logp=0.0 use_small=1.0", "left":3, "right":4, "tails":[ "root" ], "f":{"logp":0.0, "use_small":1.0}, "weight":1.0 },
+{"head":"2", "trule":"[JJ] ||| kleines ||| little ||| logp=0.0 use_little=1.0", "left":3, "right":4, "tails":[ "root" ], "f":{"logp":0.0, "use_little":1.0}, "weight":1.0 },
+{"head":"3", "trule":"[NN] ||| [JJ,1] haus ||| [1] house ||| logp=0.0 use_house=1.0", "left":3, "right":5, "tails":[ "2" ], "f":{"logp":0.0, "use_house":1.0}, "weight":1.0 },
+{"head":"3", "trule":"[NN] ||| [JJ,1] haus ||| [1] shell ||| logp=0.0 use_shell=1.0", "left":3, "right":5, "tails":[ "2" ], "f":{"logp":0.0, "use_shell":1.0}, "weight":2.71828182846 },
+{"head":"4", "trule":"[NP] ||| ein [NN,1] ||| a [1] ||| logp=0.0 use_a=1.0", "left":2, "right":5, "tails":[ "3" ], "f":{"logp":0.0, "use_a":1.0}, "weight":1.0 },
+{"head":"5", "trule":"[VP] ||| [V,1] [NP,2] ||| [1] [2] ||| logp=0.0", "left":1, "right":5, "tails":[ "1","4" ], "f":{"logp":0.0}, "weight":1.0 },
+{"head":"6", "trule":"[S] ||| [NP,1] [VP,2] ||| [1] [2] ||| logp=0.0", "left":0, "right":5, "tails":[ "0","5" ], "f":{"logp":0.0}, "weight":1.0 },
+{"head":"7", "trule":"[Goal] ||| [S,1] ||| [1] ||| ", "left":0, "right":5, "tails":[ "6" ], "f":{}, "weight":1.0 }
+]
+}
+
