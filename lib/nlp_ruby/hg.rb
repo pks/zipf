@@ -3,6 +3,7 @@
 require 'nlp_ruby'
 require 'json'
 
+
 module HG
 
 
@@ -40,14 +41,15 @@ class HG::Hypergraph
 end
 
 class HG::Hyperedge
-  attr_accessor :head, :tails, :weight, :f, :mark
+  attr_accessor :head, :tails, :weight, :f, :mark, :rule, :left, :right
 
-  def initialize head=nil, tails=[], weight=0.0, f={}
+  def initialize head=nil, tails=[], weight=0.0, f={}, rule=nil, left=nil, right=nil
     @head   = head
     @tails  = tails
     @weight = weight
     @f      = f
     @mark   = 0
+    @rule   = Grammar::Rule.from_s rule if rule
   end
 
   def arity
@@ -59,7 +61,7 @@ class HG::Hyperedge
   end
 
   def to_s
-    "Hyperedge<head:\"#{@head.label}\", tails:#{@tails.map{|n|n.label}}, arity:#{arity}, weight:#{@weight}, f:#{f.to_s}, mark:#{@mark}>"
+    "Hyperedge<head:\"#{@head.label}\", rule:\"#{@rule.to_s}, \"tails:#{@tails.map{|n|n.label}}, arity:#{arity}, weight:#{@weight}, f:#{f.to_s}, mark:#{@mark}>"
   end
 end
 
@@ -96,6 +98,27 @@ def HG::viterbi hypergraph, root, semiring=ViterbiSemiring.new
   }
 end
 
+def HG::viterbi_path hypergraph, root, semiring=ViterbiSemiring.new
+  toposorted = topological_sort hypergraph.nodes
+  init toposorted, semiring, root
+  best_path = []
+  toposorted.each { |n|
+    best_edge = nil
+    n.incoming.each { |e|
+      s = semiring.one
+      e.tails.each { |m|
+        s = semiring.multiply.call(s, m.score)
+      }
+      if n.score < semiring.multiply.call(s, e.weight) # ViterbiSemiring add
+        best_edge = e
+      end
+      n.score = semiring.add.call(n.score, semiring.multiply.call(s, e.weight))
+    }
+    best_path << best_edge
+  }
+  return best_path, toposorted.last.score
+end
+
 def HG::read_hypergraph_from_json fn, semiring=RealSemiring.new, log_weights=false
   nodes = []
   edges = []
@@ -110,7 +133,11 @@ def HG::read_hypergraph_from_json fn, semiring=RealSemiring.new, log_weights=fal
     nodes_by_index << n
   }
   h['edges'].each { |i|
-    e = Hyperedge.new nodes_by_label[i['head']], i['tails'].map{|j| nodes_by_label[j]}.to_a, semiring.convert.call(i['weight'].to_f)
+    e = Hyperedge.new(nodes_by_label[i['head']], \
+                      i['tails'].map{|j| nodes_by_label[j]}.to_a, \
+                      semiring.convert.call(i['weight'].to_f), \
+                      {}, \
+                      i['rule'], i['left'], i['right'])
     e.f = SparseVector.from_h i['f']
     if log_weights
       e.weight = Math.exp(w.dot(e.f))
@@ -124,6 +151,23 @@ def HG::read_hypergraph_from_json fn, semiring=RealSemiring.new, log_weights=fal
     edges << e
   }
   return Hypergraph.new(nodes, edges), nodes_by_label, nodes_by_index
+end
+
+def HG::all_paths hypergraph, root, semiring=ViterbiSemiring.new
+  toposorted = topological_sort hypergraph.nodes
+  paths = [[]]
+  toposorted.each { |n|
+    next if n.incoming.empty?
+    new_paths = []
+    while !paths.empty?
+      p = paths.pop
+      n.incoming.each { |e|
+        new_paths << p+[e]
+      }
+    end
+    paths = new_paths
+  }
+  return paths
 end
 
 
