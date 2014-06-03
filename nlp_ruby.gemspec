@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name        = 'nlp_ruby'
-  s.version     = '0.4.3'
-  s.date        = '2014-06-01'
+  s.version     = '0.4.4'
+  s.date        = '2014-06-03'
   s.summary     = 'nlp_ruby'
   s.description = 'NLP related tools and classes'
   s.authors     = ['Patrick Simianer']
