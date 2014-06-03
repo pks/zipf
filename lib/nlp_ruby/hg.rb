@@ -43,13 +43,12 @@ end
 class HG::Hyperedge
   attr_accessor :head, :tails, :weight, :f, :mark, :rule, :left, :right
 
-  def initialize head=nil, tails=[], weight=0.0, f={}, rule=nil, left=nil, right=nil
+  def initialize head=nil, tails=[], weight=0.0, f={}
     @head   = head
     @tails  = tails
     @weight = weight
     @f      = f
     @mark   = 0
-    @rule   = Grammar::Rule.from_s rule if rule
   end
 
   def arity
@@ -61,7 +60,7 @@ class HG::Hyperedge
   end
 
   def to_s
-    "Hyperedge<head:\"#{@head.label}\", rule:\"#{@rule.to_s}, \"tails:#{@tails.map{|n|n.label}}, arity:#{arity}, weight:#{@weight}, f:#{f.to_s}, mark:#{@mark}>"
+    "Hyperedge<head:\"#{@head.label}\", \"tails:#{@tails.map{|n|n.label}}, arity:#{arity}, weight:#{@weight}, f:#{f.to_s}, mark:#{@mark}>"
   end
 end
 
@@ -136,8 +135,7 @@ def HG::read_hypergraph_from_json fn, semiring=RealSemiring.new, log_weights=fal
     e = Hyperedge.new(nodes_by_label[i['head']], \
                       i['tails'].map{|j| nodes_by_label[j]}.to_a, \
                       semiring.convert.call(i['weight'].to_f), \
-                      {}, \
-                      i['rule'], i['left'], i['right'])
+                      {})
     e.f = SparseVector.from_h i['f']
     if log_weights
       e.weight = Math.exp(w.dot(e.f))
