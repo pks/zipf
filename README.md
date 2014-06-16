@@ -1,8 +1,8 @@
-nlp_ruby
-========
+zipf
+====
 
 My little NLP library, supposed to make _my_ work a little easier and less redundant.
-The .gem can be found here: https://rubygems.org/gems/nlp_ruby
+The .gem can be found here: https://rubygems.org/gems/zipf
 
          bleu.rb : BLEU implementation, also per-sentence-BLEU
           dag.rb : implementation of a directed acyclic graph and various algorithms

@@ -126,5 +126,5 @@ def BLEU::per_sentence_bleu hypothesis, reference, n=4, smooth=0.0
 end
 
 
-end # module
+end #module
 

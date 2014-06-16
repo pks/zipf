@@ -201,5 +201,5 @@ def DAG::read_graph_from_json fn, semiring=RealSemiring.new
 end
 
 
-end # module
+end #module
 

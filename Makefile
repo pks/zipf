@@ -1,19 +1,19 @@
-version := $$(grep s.version nlp_ruby.gemspec | awk '{print $$3}' | sed "s|'||g")
+version := $$(grep s.version zipf.gemspec | awk '{print $$3}' | sed "s|'||g")
 
 
-all: lib/nlp_ruby.rb lib/nlp_ruby/bleu.rb lib/nlp_ruby/dag.rb lib/nlp_ruby/fileutil.rb lib/nlp_ruby/misc.rb lib/nlp_ruby/semirings.rb lib/nlp_ruby/SparseVector.rb lib/nlp_ruby/stringutil.rb lib/nlp_ruby/tfidf.rb lib/nlp_ruby/Translation.rb
-	gem build nlp_ruby.gemspec
+all: lib/zipf.rb lib/zipf/bleu.rb lib/zipf/dag.rb lib/zipf/fileutil.rb lib/zipf/misc.rb lib/zipf/semirings.rb lib/zipf/SparseVector.rb lib/zipf/stringutil.rb lib/zipf/tfidf.rb lib/zipf/Translation.rb
+	gem build zipf.gemspec
 
 install:
-	gem install nlp_ruby-$(version).gem
+	gem install zipf-$(version).gem
 
 clean:
-	rm nlp_ruby-$(version).gem
-	gem uninstall nlp_ruby -v $(version)
+	rm zipf-$(version).gem
+	gem uninstall zipf -v $(version)
 
 rake_test:
 	rake test
 
 publish:
-	gem push nlp_ruby-$(version).gem
+	gem push zipf-$(version).gem
 

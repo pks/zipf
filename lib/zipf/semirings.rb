@@ -2,6 +2,8 @@
 # as described in:
 # 'Dynamic Programming Algorithms in
 #  Semiring and Hypergraph Frameworks' (Liang Huang)
+#
+
 class Semiring
   attr_accessor :add, :multiply, :one, :null, :convert
 end

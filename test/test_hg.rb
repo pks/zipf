@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require 'nlp_ruby'
+require_relative '../lib/zipf'
 require 'test/unit'
 
 
