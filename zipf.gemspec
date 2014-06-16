@@ -2,7 +2,7 @@ Gem::Specification.new do |s|
   s.name        = 'zipf'
   s.version     = '1.0'
   s.date        = '2014-06-16'
-  s.summary     = 'nlp_ruby'
+  s.summary     = 'zipf'
   s.description = 'NLP related tools and classes'
   s.authors     = ['Patrick Simianer']
   s.email       = 'p@simianer.de'
