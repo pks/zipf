@@ -1,3 +1,6 @@
+require 'json'
+
+
 class SparseVector < Hash
 
   def initialize arg=nil
@@ -16,6 +19,12 @@ class SparseVector < Hash
     v = SparseVector.new
     v.from_a a
     return v
+  end
+
+  def to_h
+    h = {}
+    self.each_pair { |k,v| h[k] = v }
+    return h
   end
 
   def from_h h
@@ -51,6 +60,20 @@ class SparseVector < Hash
       k,v = i.split('=')
       self[k] = v.to_f
     }
+  end
+
+  def to_json
+    JSON.dump self.to_h
+  end
+
+  def from_json s
+    from_h JSON.load(s)
+  end
+
+  def self.from_json s
+    v = SparseVector.new
+    v.from_json s
+    return v
   end
 
   def self.from_kv s
