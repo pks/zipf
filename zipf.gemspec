@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'zipf'
-  s.version     = '1.0.2'
+  s.version     = '1.0.3'
   s.date        = '2014-06-17'
   s.summary     = 'zipf'
   s.description = 'NLP related tools and classes'

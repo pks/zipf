@@ -55,9 +55,9 @@ class SparseVector < Hash
     return a.join join
   end
 
-  def from_kv s
-    s.split.each { |i|
-      k,v = i.split('=')
+  def from_kv s, sep='=', join=/\s/
+    s.split(join).each { |i|
+      k,v = i.split(sep)
       self[k] = v.to_f
     }
   end
@@ -76,9 +76,9 @@ class SparseVector < Hash
     return v
   end
 
-  def self.from_kv s
+  def self.from_kv s, sep='=', join=/\s/
     v = SparseVector.new
-    v.from_kv s
+    v.from_kv s, sep, join
     return v
   end
 
