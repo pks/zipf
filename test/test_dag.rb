@@ -3,7 +3,6 @@
 require_relative '../lib/zipf'
 require 'test/unit'
 
-
 class TestDAG <  Test::Unit::TestCase
 
   def test_viterbi

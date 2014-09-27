@@ -2,7 +2,6 @@ module DAG
 
 require 'json'
 
-
 class DAG::Node
   attr_accessor :label, :outgoing, :incoming, :score, :mark
 
@@ -199,7 +198,6 @@ def DAG::read_graph_from_json fn, semiring=RealSemiring.new
   }
   return graph, nodes_by_label
 end
-
 
 end #module
 

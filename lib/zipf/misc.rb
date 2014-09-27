@@ -1,6 +1,5 @@
 require 'timeout'
 
-
 class Array
   def max_index
     self.index(self.max)

@@ -1,6 +1,5 @@
 module TFIDF
 
-
 # returns key='raw frequency' for an
 # array-like object
 def TFIDF::tf array, stopwords=[]

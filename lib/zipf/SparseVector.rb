@@ -1,6 +1,5 @@
 require 'json'
 
-
 class SparseVector < Hash
 
   def initialize arg=nil

@@ -3,9 +3,7 @@
 require_relative 'semirings'
 require 'json'
 
-
 module HG
-
 
 class HG::Node
   attr_accessor :label, :cat, :outgoing, :incoming, :score
@@ -167,7 +165,6 @@ def HG::all_paths hypergraph, root, semiring=ViterbiSemiring.new
   }
   return paths
 end
-
 
 end #module
 

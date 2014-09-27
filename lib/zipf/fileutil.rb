@@ -1,6 +1,5 @@
 require 'zlib'
 
-
 class ReadFile
 
   def initialize fn, encoding='utf-8'

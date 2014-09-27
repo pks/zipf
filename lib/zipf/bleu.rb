@@ -1,6 +1,5 @@
 module BLEU
 
-
 class BLEU::NgramCounts
   attr_accessor :sum, :clipped, :ref_len, :hyp_len, :n
 
@@ -124,7 +123,6 @@ def BLEU::per_sentence_bleu hypothesis, reference, n=4, smooth=0.0
   logbleu += brevity_penalty hypothesis.strip.split.size, reference.strip.split.size, smooth
   return Math.exp logbleu
 end
-
 
 end #module
 
