@@ -9,6 +9,6 @@ Gem::Specification.new do |s|
   s.files       = Dir['lib/*.rb', 'lib/zipf/*.rb']
   s.homepage    = 'http://simianer.de'
   s.license     = 'MIT'
-  #s.add_runtime_dependency ['json'],['>=0']
+  s.add_runtime_dependency 'json',['>=0']
 end
 
