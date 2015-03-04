@@ -37,7 +37,7 @@ class SparseVector < Hash
   end
 
   def from_s s
-    from_h eval(s)
+    from_h eval(s.strip)
   end
 
   def self.from_s s
@@ -55,10 +55,16 @@ class SparseVector < Hash
   end
 
   def from_kv s, sep='=', join=/\s/
-    s.split(join).each { |i|
+    s.strip.split(join).each { |i|
       k,v = i.split(sep)
       self[k] = v.to_f
     }
+  end
+
+  def self.from_kv s, sep='=', join=/\s/
+    v = SparseVector.new
+    v.from_kv s, sep, join
+    return v
   end
 
   def to_json
@@ -72,12 +78,6 @@ class SparseVector < Hash
   def self.from_json s
     v = SparseVector.new
     v.from_json s
-    return v
-  end
-
-  def self.from_kv s, sep='=', join=/\s/
-    v = SparseVector.new
-    v.from_kv s, sep, join
     return v
   end
 
