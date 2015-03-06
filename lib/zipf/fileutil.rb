@@ -18,6 +18,10 @@ class ReadFile
     @f.gets { |line| yield line }
   end
 
+  def rewind
+    @f.rewind
+  end
+
   def readlines
     @f.readlines
   end

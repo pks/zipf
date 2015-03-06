@@ -179,6 +179,15 @@ class SparseVector < Hash
     return new
   end
 
+  def / scalar
+    raise ArgumentError, "Arg is not numeric #{scalar}" unless scalar.is_a? Numeric
+    new = SparseVector.new
+    self.keys.each { |k|
+      new[k] = self[k] / scalar
+    }
+    return new
+  end
+
   def self.mean a
     mean = SparseVector.new
     a.each { |i|
