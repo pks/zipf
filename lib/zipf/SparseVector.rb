@@ -199,5 +199,20 @@ class SparseVector < Hash
     mean.each_pair { |k,v| mean[k] = v/n }
     return mean
   end
+
+  def norm
+    return Math.sqrt(self.dot(self))
+  end
+
+  def unit!
+    n = self.norm
+    self.each_pair { |k,v|
+      self[k] /= n
+    }
+  end
+
+  def unit
+    return SparseVector.new(self).unit!
+  end
 end
 
