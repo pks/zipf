@@ -7,6 +7,10 @@ class SparseVector < Hash
     self.default = 0
     if arg.is_a? Array
       from_a arg
+    elsif arg.is_a? Hash
+      from_h arg
+    elsif arg.is_a? String
+      from_s arg
     end
   end
 
@@ -212,7 +216,9 @@ class SparseVector < Hash
   end
 
   def unit
-    return SparseVector.new(self).unit!
+    v = SparseVector.new(self)
+    v.unit!
+    return v
   end
 end
 
