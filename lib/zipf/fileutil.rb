@@ -14,6 +14,10 @@ class ReadFile
     end
   end
 
+  def get
+    return @f
+  end
+
   def gets
     @f.gets { |line| yield line }
   end
