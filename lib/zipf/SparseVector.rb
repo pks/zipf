@@ -151,7 +151,7 @@ class SparseVector < Hash
     self.dot(other)/(self.magnitude*other.magnitude)
   end
 
-  def euclidian_dist other
+  def euclidean_dist other
     dims = [self.keys, other.keys].flatten.uniq
     sum = 0.0
     dims.each { |d| sum += (self[d] - other[d])**2 }
